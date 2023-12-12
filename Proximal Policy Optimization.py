@@ -78,3 +78,22 @@ for episode in range(num_episodes):
 
     if episode % 10 == 0:
         print(f"Episode: {episode}, Total Reward: {np.sum(rewards)}")
+total_rewards = []
+
+for episode in range(100):
+    observation = env.reset()
+    episode_reward = 0
+
+    for step in range(max_steps):
+        state = np.reshape(observation, [1, -1])
+        action_probs = policy_network(state)
+        action = np.argmax(np.squeeze(action_probs))
+        observation, reward, done, _ = env.step(action)
+        episode_reward += reward
+
+        if done:
+            break
+
+    total_rewards.append(episode_reward)
+
+print("Average reward over 100 episodes:", np.mean(total_rewards))
